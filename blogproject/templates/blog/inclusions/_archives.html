@@ -1,0 +1,39 @@
+<div class="widget widget-archives">
+    <h3 class="widget-title">归档</h3>
+    <ul>
+        {% for date in date_list %}
+        <li>
+           <!--a-- href="#">{{ date.year }} 年　{{ date.month }} 月</a-->
+            <!--{ url }这个模板标签的作用时解析视图函数　blog:archive 对应的ＵＲＬ模式，
+            并把ｕｒｌ模式中打年和月替换成date.year, date.month的值
+            { url }模板标签接受的第一个参数为解析视图函数的端点值，这个端点值由２部分组成，
+            中间由冒号分割．
+            第一部分为在应用的urls.py中指定的app_name的值（充当命名空间，这样即使使用不同ａｐｐ下有相同打视图函数名，也不会冲突）
+            第二部分path函数中传入打ｎａｍｅ参数的值
+
+            比如：指定了app_name='blog', archive视图函数的url模式为
+            path('archives/<int:year>/<int:month>', views.archive, name='archive')
+            因此对应的端点值为blog:archive
+
+            { url }模板标签接收打其他参数为ＵＲＬ路径参数，即ＵＲＬ模式中路径参数转换器需要捕获的值．
+            比如：
+                archive视图函数对应的url模式为archives/<int:year>/<int:month>/, 假设date.year=2017,
+                date.month=5,
+                那么{ url 'blog:archive' date.year date.month }模板标签返回的值为/archives/2017/5/
+
+            为什么要使用{ url }模板标签呢？
+            事实上把超链接的ｈｒｅｆ设置为/archives/{{ date.year }}/{{ date.month }}/同样卡亚达到目的，但这种写法是硬编码
+            虽然现在　blog:archive视图函数对应打ＵＲＬ模式时这种形式，但是如果哪天这个模式改变了呢？
+            如果使用了硬编码的写法，那你需要把每一处/archives/{{ date.year }}/{{ date.month }}/修改为新打模式，
+            但是如果使用了{ url }模板标签，则不用做任何修改．
+
+            -->
+           <a href="{% url 'blog:archive' date.year date.month %}">
+               {{ date.year }} 年　{{ date.month }} 月
+           </a>
+        </li>
+        {% empty %}
+        暂无归档
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,45 @@
+<!--
+form标签有两个重要的属性：　action　和　method
+   action: 指定表单内容提交的地址
+   method: 指定提交表单打ＨＴＴＰ请求类型，一般表单提交都是使用ＰＯＳＴ
+
+   csrf_token: 这个模板标签在表单渲染时会自动渲染为一个隐藏类型打HTML　input控件，
+   其值为一个随机字符串，作用主要是防护ＣＳＲＦ攻击(跨站请求伪造).
+
+   comments_extras.py -> show_comment_form模板标签传递了一个模板变量form, 它是CommentForm的一个实例
+   表单字段{{ form.name }}，{{ form.email }}，{{ form.url }}等将自动渲染成表单控件
+
+   表单中并没有定义name, email, url等属性，那么他们是从哪里来的呢？
+   CommentForm中Meta下的fields, django会自动将fields中声明的模型字段设置为表单打属性．
+
+   {{ form.name.errors }}等将渲染表单对应字段的错误(如果有的话)，例如用户email格式错误等．
+   django会自动检查用户提交打email格式．
+
+   {{ form.xxx.label }}用来获取表单的label，django根据表单对应的模型中字段的verbose_name参数生成．
+-->
+<form action="{% url 'comments:comment' post.pk %}" method="post" class="comment-from">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-4">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}: </label>
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+        <div class="col-md-4">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}: </label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="col-md-4">
+            <label for="{{ form.url.id_for_label }}">{{ form.url.label }}: </label>
+            {{ form.url }}
+            {{ form.url.errors }}
+        </div>
+        <div class="col-md-12">
+            <label for="{{ form.text.id_for_label }}">{{ form.text.label }}: </label>
+            {{ form.text　}}
+            {{ form.text.errors }}
+            <button type="submit" class="comment-btn">发表</button>
+        </div>
+    </div>
+</form>
