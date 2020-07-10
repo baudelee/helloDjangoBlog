@@ -14,7 +14,7 @@
                 从index.html到评论区域需要跳转页面，因此　href 超链接指定为绝对URL,而文章详情和评论区在一个页面，因此只需要指定猫点即可
                 -->
                 <span class="comments-link"><a href="#comment-area">{{ post.comment_set.count }} 评论</a></span>
-                <span class="views-count"><a href="#">588 阅读</a></span>
+                <span class="views-count"><a href="#">{{ post.views }} 阅读</a></span>
             </div>
         </header>
         <div class="entry-content clearfix">

@@ -43,6 +43,12 @@ class Post(models.Model):
     # step 10
     body = models.TextField()
 
+    # step 20
+    # 新增ｖｉｅｗｓ字段记录阅读量
+    # PositiveIntegerField类型，该类型只允许为正整数或０，因为阅读量不可能为负值．
+    # edutable为False表示，该字段不允许通过django admin后台编辑．
+    views = models.PositiveIntegerField(default=0, editable=False)
+
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = verbose_name
@@ -79,3 +85,8 @@ class Post(models.Model):
     def get_absolute_url(self):
         # blog:detail 意思就是blog应用下打name=detail的函数
         return reverse('blog:detail', kwargs={'pk': self.pk})
+
+    def increase_views(self):
+        self.views += 1
+        # update_field告诉数据库只更新views字段
+        self.save(update_fields=['views'])

@@ -55,6 +55,10 @@ def detail(request, pk):
         # 记得引入TocExtension 和 slugify
         TocExtension(slugify=slugify),
     ])
+
+    # 阅读量 +1
+    post.increase_views()
+
     # 使用convert方法将markdown文档转换成HTML文本，而一旦调用该方法md就会多出一个toc属性，
     # 这个属性的值就是内容打目录，然后把md.toc的值复制给post.toc
     # 然而post本身没有toc属性，但是可以动态添加这个属性，这就是python动态语言的好处
